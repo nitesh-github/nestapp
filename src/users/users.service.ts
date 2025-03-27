@@ -7,8 +7,14 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async findAll(): Promise<User[]> {
-    return await this.userModel.find().exec();
+  async findAll(
+    page: number,
+    limit: number,
+  ): Promise<{ total: number; users: User[] }> {
+    const skip = (page - 1) * limit; // Calculate the number of documents to skip
+    const total = await this.userModel.countDocuments();
+    const users = await this.userModel.find().skip(skip).limit(limit).exec();
+    return { total, users };
   }
 
   async findById(_id: string): Promise<User | null> {

@@ -6,6 +6,7 @@ import {
   //   Body,
   //   Patch,
   //   Delete,
+  Query,
 } from '@nestjs/common';
 import { User } from 'src/schemas/user.schema';
 import { UsersService } from './users.service';
@@ -15,9 +16,14 @@ export class UsersController {
   private users: User[] = [];
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
-  getAllUsers() {
-    return this.usersService.findAll();
+  @Get('get-all')
+  getAllUsers(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    // const page = parseInt(page);
+    // const limit = parseInt(limit);
+    return this.usersService.findAll(parseInt(page), parseInt(limit));
   }
 
   @Get(':id')
