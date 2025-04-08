@@ -7,23 +7,31 @@ import {
   //   Patch,
   //   Delete,
   Query,
+  HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from 'src/schemas/user.schema';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { UsersService } from './users.service';
 
-@Controller('users')
+@Controller('api')
 export class UsersController {
   private users: User[] = [];
   constructor(private readonly usersService: UsersService) {}
-
-  @Get('get-all')
-  getAllUsers(
+  @UseGuards(AuthGuard)
+  @Get('get-user-list')
+  async getAllUsers(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
   ) {
-    // const page = parseInt(page);
-    // const limit = parseInt(limit);
-    return this.usersService.findAll(parseInt(page), parseInt(limit));
+    const data = await this.usersService.findAll(
+      parseInt(page),
+      parseInt(limit),
+    );
+    return {
+      status: HttpStatus.OK,
+      data: data,
+    };
   }
 
   @Get(':id')

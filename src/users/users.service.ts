@@ -10,11 +10,11 @@ export class UsersService {
   async findAll(
     page: number,
     limit: number,
-  ): Promise<{ total: number; users: User[] }> {
+  ): Promise<{ totalCount: number; users: User[] }> {
     const skip = (page - 1) * limit; // Calculate the number of documents to skip
-    const total = await this.userModel.countDocuments();
+    const totalCount = await this.userModel.countDocuments();
     const users = await this.userModel.find().skip(skip).limit(limit).exec();
-    return { total, users };
+    return { totalCount, users };
   }
 
   async findById(_id: string): Promise<User | null> {

@@ -13,6 +13,7 @@ export class User {
 
   @Prop({ minilength: 6 })
   password: string;
+  _id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
