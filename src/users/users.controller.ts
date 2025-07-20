@@ -14,12 +14,12 @@ import { User } from 'src/schemas/user.schema';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UsersService } from './users.service';
 
-@Controller('api')
+@Controller()
 export class UsersController {
   private users: User[] = [];
   constructor(private readonly usersService: UsersService) {}
   @UseGuards(AuthGuard)
-  @Get('get-user-list')
+  @Get('users')
   async getAllUsers(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
@@ -34,7 +34,7 @@ export class UsersController {
     };
   }
 
-  @Get(':id')
+  @Get('user/:id')
   getUserById(@Param('id') id: string) {
     return id;
   }

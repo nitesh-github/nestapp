@@ -20,12 +20,14 @@ export class AuthService {
   }
 
   async login(username: string, password: string) {
+    console.log('testing23');
     const user = await this.validateUser(username, password);
     if (!user) {
       //   throw new HttpException(
       //     { status: false, message: 'Invalid credentials' },
       //     HttpStatus.UNAUTHORIZED,
       //   );
+      console.log('testing29');
       return {
         status: HttpStatus.UNAUTHORIZED,
         message: 'Invalid credentials',
